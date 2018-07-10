@@ -1,5 +1,4 @@
 // Requires javascript modules:
-//      bird-anim.js
 //      solclient-full.js
 //
 // Requires the following HTML elements:

@@ -1,0 +1,24 @@
+
+/* Container holding the image and the text */
+.container {
+    width: 250px;
+    position: relative;
+    text-align: center;
+}
+
+/* Top left text */
+.top-left {
+    position: absolute;
+    top:  44px;
+    left: 44px;
+    text-align: center;
+}
+
+.connectionInfo {
+	    font-family: "Courier New", Courier, monospace;
+}
+
+img {
+    width: 300px;
+    height: auto;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Solace Pub-Sub</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="../solclient-full.js"></script>
+	<script type="text/javascript" src="../solconn.js"></script>
+	<script type="text/javascript" src="solbounce.js"></script>
+</head>
+
+<body onload="SolBounce.init()" onresize="SolBounce.calcstart()">
+	
+<div class=connectionInfo>
+	<p>Host: <input id=inputHost size=15> 
+	<button onclick="SolConn.onConnect('default', 'hey', SolBounce.dropDot)">GO!</button>
+		<button onclick="SolConn.onDisconnect()">So long</button></p>
+
+	<img id=logo onclick="SolBounce.dropDot()" src="solace_logo_green.png">
+	
+	<p id=connDetails></p>
+	<p id=subDetails></p>
+</div>
+
+<div id=container>
+	<canvas id="animate"></canvas>
+</div>
+
+</body>
+</html>

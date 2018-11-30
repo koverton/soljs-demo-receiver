@@ -11,9 +11,19 @@
 <body onload="SolBounce.init()" onresize="SolBounce.calcstart()">
 	
 <div class=connectionInfo>
-	<p>Host: <input id=inputHost size=15> 
-	<button onclick="SolConn.onConnect('default', 'hey', SolBounce.dropDot)">GO!</button>
+	<p>URL: <input id=inputHost value=ws://localhost size=15> VPN: <input id=inputVpn value=default size=16></p>
+	<p>User: <input id=inputUser value=default size=15> Pass: <input type=password id=inputPassword size=15></p>
+	<p>Topic: <input id=inputTopic value=hey size=21>
+	<button onclick="SolConn.onConnect({
+	 		hostString: document.getElementById('inputHost').value,
+			msgVpnName: document.getElementById('inputVpn').value,
+			clientUsername: document.getElementById('inputUser').value,
+			clientPassword: document.getElementById('inputPassword').value,
+			topic: document.getElementById('inputTopic').value,
+	 		callback: SolBounce.dropDot
+	 	})">GO!</button>
 		<button onclick="SolConn.onDisconnect()">So long</button></p>
+
 
 	<img id=logo onclick="SolBounce.dropDot()" src="solace_logo_green.png">
 	

@@ -14,27 +14,23 @@ var SolConn = (function() {
     // - + - + - + - + - + - + - + - + - + - + - + - + -
     //   Member variables
 	// - + - + - + - + - + - + - + - + - + - + - + - + -
-	var url = 'http://192.168.56.104'
-	var subscription = null
-	var vpn = 'default'
-	const user = 'default'
+	// ws://192.168.56.201, ws://mr85s7y8ur59.messaging.solace.cloud:20259
+	var urlList = [ 'ws://192.168.56.201','ws://192.168.56.202' ]
+	var context = null
 	var sess = null
-	var userCBFN = null
 
 
     // - + - + - + - + - + - + - + - + - + - + - + - + -
     //   Public Interface UI-invoked functions
     // - + - + - + - + - + - + - + - + - + - + - + - + -
 	
-	var onConnect = function (domain, topic, callbackFn) {
-		vpn = domain
-		userCBFN = callbackFn
+	var onConnect = function (ctx) {
+		context = ctx
 		var factoryProps = new solace.SolclientFactoryProperties()
 		factoryProps.logLevel = solace.LogLevel.DEBUG
 		solace.SolclientFactory.init(factoryProps)
 
-		var host = document.getElementById('inputHost').value
-		connectSolace( 'http://' + host, vpn, topic )
+		connectSolace( context.hostString )
 	}
 
 	var onDisconnect = function () {
@@ -47,10 +43,8 @@ var SolConn = (function() {
     //   Private internally-invoked functions
 	// - + - + - + - + - + - + - + - + - + - + - + - + -
 	
-	function connectSolace(destUrl, destVpn, topic) {
-		url = destUrl
-		vpn = destVpn
-		subscription = topic
+	function connectSolace(destUrl) {
+		urlList = destUrl.split(',')
 		createSession()
 		connectSession()
 	}
@@ -68,7 +62,7 @@ var SolConn = (function() {
 		if (text == null) {
 			text = 'Gak!'
 		}
-		userCBFN(text)
+		context.callback( text )
 	}
 
 	// STATIC SESSION EVENT CALLBACK
@@ -76,17 +70,24 @@ var SolConn = (function() {
 		log_msg('session event: ' + JSON.stringify(evt))
 		log_msg('ses = ' + sess)
 		log_msg('session = ' + session)
-		if (evt.sessionEventCode == 1) {
-			addSub(subscription)
+		if (evt.sessionEventCode == solace.SessionEventCode.UP_NOTICE ) {
+			addSub(context.topic)
 		}
 	}
 
+
+    // - + - + - + - + - + - + - + - + - + - + - + - + -
+    //   Private Internal functions
+    // - + - + - + - + - + - + - + - + - + - + - + - + -
+	
 	function createSession() {
 		var props = new solace.SessionProperties()
-		props.url      = url
-		props.userName = user
-		props.vpnName  = vpn
+		props.url = urlList // [ 'ws://192.168.56.201','ws://192.168.56.202' ]
+		props.userName = context.clientUsername
+		props.vpnName  = context.msgVpnName
+		props.password = context.clientPassword
 		props.generateReceiveTimestamps = true
+		props.reapplySubscriptions = true
 		log_msg("CONNECTING to URL:" + props.url 
 					+ ",VPN:" + props.vpnName 
 					+ ",USER:" + props.userName)
@@ -125,7 +126,7 @@ var SolConn = (function() {
 		try {
 			var topic = solace.SolclientFactory.createTopic(sub)
 			sess.subscribe(topic, true, sub, 3000)
-			document.getElementById('connDetails').innerHTML = 'I am connected to ' + url
+			document.getElementById('connDetails').innerHTML = 'I am connected to ' + urlList
 			document.getElementById('subDetails').innerHTML = 'I am subscribed to ' + sub
 		}
 		catch(error) {

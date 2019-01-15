@@ -38,7 +38,7 @@ either add the tool to your PATH or modify the script to point to the proper
 ## Demoing a PubSub+ bridge
 
 Load either of the top-level HTML files into your browser locally 
-(`bounceDemo.html` or `squawkDemo.html`). They do not 
+(`bounceDemo.html`). They do not
 need to be served via a webserver. It will display two web-pages in different 
 frames. Each page can create a distinct PubSub+ connection and consume messages.
 

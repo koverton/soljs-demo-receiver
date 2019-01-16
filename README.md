@@ -1,31 +1,28 @@
 # soljs-demo-receiver
-Simple Solace PubSub+ Javascript demo pages with HTML5 visualizations
+Simple Solace PubSub+ Javascript demo page with HTML5 visualization
 representing Solace PubSub+ message events.
 
-This package provides two different basic animations that execute every
-time a Solace message is received. The top-level pages contain a frameset that
+This package provides a basic animation that executes every
+time a Solace message is received. The top-level pages contains a frameset that
 can be used to test bridging/routing over two Solace PubSub+ brokers.
 
-There are two simple animations: one is a bouncing 'dot' from the Solace logo, 
-the other is a silly cartoon bird that displays a speech balloon with the message
-text on each new message.
+The animation is a simple bouncing 'dot' from the Solace logo that provides
+a simple visual indication that a message has been received. It does not
+display any of the message contents.
 
-## Default Assumptions
-
-The default implementation assumes you are connecting to the `default` Solace 
-Msg-VPN via the `default` client-username. The default implementations also 
-currently publish and subscribe to the topic `hey`.
 
 ## Connecting a browser session
 
 Just enter the hostname or IP-address for your web-socket connection, appending
-':<port>' it is something other than standard port 80.
+':<port>' it is something other than standard port 80. Modify any of the
+values for msg-VPN, username and password as appropriate.
 
-The page should display text indicating it is connected and subscribed.
+The page will display text indicating it is connected and subscribed.
 
 ## Sending messages to your browser session
 
-There is a `sendmsg.sh` script for sending messages 
+Your browser can send messages to itself if you check the box to 'Send messages'.
+Or there is a `sendmsg.sh` script for sending messages
 on the default topic. The script takes one argument indicating the 
 host/IP-address for connectivity, and the rest of the commandline will be the 
 text message sent repeatedly, once per second.
@@ -43,8 +40,7 @@ need to be served via a webserver. It will display two web-pages in different
 frames. Each page can create a distinct PubSub+ connection and consume messages.
 
 Connect each page to a different PubSub+ broker that you want to bridge 
-together and begin sending messages to one of the brokers via the 
-`sendmsg.sh` script.
+together and begin sending messages to one of the brokers.
 
 Navigate to the Web-SolAdmin GUI for one of the PubSub+ brokers, select the 
 default Msg-VPN and then the 'Bridges' section. Use 'Click-to-Connect' to 

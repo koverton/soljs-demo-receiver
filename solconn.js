@@ -100,7 +100,7 @@ var SolConn = (function() {
             msg.setDestination( solace.SolclientFactory.createTopicDestination(context.topic) )
             try {
                 context.sess.send( msg )
-                logMsg( 'Message published.' )
+                // logMsg( 'Message published.' )
             } catch (error) {
                 logError( "Failure publishing msg", error )
             }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Paho Pub-Sub</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
+	<script type="text/javascript" src="../pahoconn.js"></script>
+	<script type="text/javascript" src="solbounce.js"></script>
+</head>
+
+<body onload="SolBounce.init('green')" onresize="SolBounce.calcstart()">
+	
+<div class=connectionInfo>
+	<p>URL: <input id=inputHost value=laptop size=15> VPN: <input id=inputVpn value=default size=16></p>
+	<p>User: <input id=inputUser value=default size=15> Pass: <input type=password id=inputPassword size=15></p>
+	<p>Topic: <input id=inputTopic value=dmr/topic/1 size=21>
+	<button onclick="PahoConn.onConnect({
+	 		hostString: document.getElementById('inputHost').value,
+			msgVpnName: document.getElementById('inputVpn').value,
+			clientUsername: document.getElementById('inputUser').value,
+			clientPassword: document.getElementById('inputPassword').value,
+			topic: document.getElementById('inputTopic').value,
+	 		color: 'green',
+	 		callback: SolBounce.dropDot
+	 	})">GO!</button>
+		<button onclick="PahoConn.onDisconnect()">So long</button></p>
+	<p>Send messages: <input type="checkbox" onchange="PahoConn.toggleSender(this)"></p>
+
+
+	<img id=logo onclick="SolBounce.dropDot()" src="solace_logo_green.png">
+	
+	<p id=connDetails></p>
+	<p id=subDetails></p>
+</div>
+
+<div id=container>
+	<canvas id="animate"></canvas>
+</div>
+
+</body>
+</html>
